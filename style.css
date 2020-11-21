@@ -45,3 +45,31 @@ body{
     background: none;
     outline: none;
 }
+#places {
+    position:absolute;
+    bottom:0px;
+    width:100%;
+    height: 200px;
+    z-index: 6;
+    background-color: white;
+    display: flex;
+    overflow: auto;
+    white-space: nowrap;
+    border: white;
+    border-radius: 25px;
+}
+#places section {
+    border: black;
+    height: 85%;
+    background-color: white;
+    padding: 10px;
+    outline: black;
+}
+
+.stars {
+    align-items: center;
+    color: gold;
+    width:50%;
+    margin:auto;
+}
+

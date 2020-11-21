@@ -1,7 +1,10 @@
 'use strict';
 
-let map, service, infoWindow, defaultLocation, rangeValue, searchString;
-let markersArray = []
+let map, service, infoWindow, defaultLocation, rangeValue, searchString
+let placesDiv, stars
+let markersArray = [];
+let placesArray = [];
+
 
 rangeValue = 300;
 
@@ -9,6 +12,8 @@ function initMap(){
   defaultLocation = new google.maps.LatLng(60.223978, 24.758720); // Karamalmi :)
    let rangeInput = document.getElementById("range-input");
    let search = document.getElementById("search-field");
+   placesDiv = document.getElementById("places")
+   placesDiv.style.display = "none"
 
   rangeInput.addEventListener("change", function(){
     rangeValue = rangeInput.value;
@@ -26,26 +31,46 @@ function initMap(){
   map = new google.maps.Map(document.getElementById("map"),{
     center: defaultLocation,
     zoom: 13,
+    disableDefaultUI: true,
   });
 
-  infoWindow = new google.maps.InfoWindow();
 
+  infoWindow = new google.maps.InfoWindow();
+/*
   let request = {
     location: defaultLocation, // Center of search circle
     radius: "10000",  //Radius of search circle in meters (max 50 000)
     type: ["restaurant"], // Type of establishment. NOT A KEYWORD!
   }
 
-  service = new google.maps.places.PlacesService(map);
+
 
   service.nearbySearch(request, placesResultCallback);
+
+ */
+  service = new google.maps.places.PlacesService(map);
 }
 
 function placesResultCallback(results, status){
   clearMarkers()
+  placesArray = []
+  placesDiv.innerHTML=``
+  placesDiv.style.display = "flex"
   if (status == google.maps.places.PlacesServiceStatus.OK){
     for (let i = 0; i < results.length; i++){
       let place = results[i];
+      setStars(place.rating);
+      placesArray.push(place)
+      let section = document.createElement('section')
+      let html =
+          `
+          <section>
+            <h4> ` + place.name + ` </h4>
+            <p class="stars">` + stars + `</p>
+          </section>
+          `
+      section.innerHTML = html
+      placesDiv.appendChild(section)
       markersArray.push(
       new google.maps.Marker({
         map,
@@ -96,4 +121,27 @@ function updateMarkers(){
     keyword: searchString,
   }
   service.nearbySearch(request, placesResultCallback);
+}
+
+function setStars(floatStars){
+  switch(Math.round(floatStars)){
+    case 0:
+      stars = "☆☆☆☆☆"
+      break;
+    case 1:
+      stars = "★☆☆☆☆"
+      break;
+    case 2:
+      stars = "★★☆☆☆"
+      break;
+    case 3:
+      stars = "★★★☆☆"
+      break;
+    case 4:
+      stars = "★★★★☆"
+      break;
+    case 5:
+      stars = "★★★★★"
+      break;
+  }
 }
