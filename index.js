@@ -1,24 +1,34 @@
 'use strict';
 
 let map, service, infoWindow, defaultLocation, rangeValue, searchString
-let placesDiv, stars
+let placesDiv, stars, photosDiv, bubble
 let markersArray = [];
 let placesArray = [];
+let slideIndex = 1;
 
-
-rangeValue = 300;
+rangeValue = 1000;
 
 function initMap(){
+
   defaultLocation = new google.maps.LatLng(60.223978, 24.758720); // Karamalmi :)
+  getLocation()
    let rangeInput = document.getElementById("range-input");
    let search = document.getElementById("search-field");
+   bubble = document.getElementById("bubble");
    placesDiv = document.getElementById("places")
    placesDiv.style.display = "none"
+   photosDiv = document.getElementById("modal-content");
+   photosDiv.style.display = "none"
 
   rangeInput.addEventListener("change", function(){
     rangeValue = rangeInput.value;
     updateMarkers()
   }, false);
+
+   rangeInput.addEventListener("input", () => {
+     setBubble(rangeInput, bubble)
+   });
+   setBubble(rangeInput, bubble)
 
   search.addEventListener("keyup", function(event){
     if (event.keyCode === 13){
@@ -60,17 +70,31 @@ function placesResultCallback(results, status){
     for (let i = 0; i < results.length; i++){
       let place = results[i];
       setStars(place.rating);
-      placesArray.push(place)
-      let section = document.createElement('section')
+      placesArray.push(place);
+      let section = document.createElement('section');
+      section.className = 'placesection';
+      // ID of the element is the unique ID of the restaurant to make future lookups easier
+      section.id = place.place_id;
+      let pics = []
+      pics = place.photos
       let html =
           `
-          <section>
             <h4> ` + place.name + ` </h4>
             <p class="stars">` + stars + `</p>
-          </section>
+            <img src="`+ pics[0].getUrl({maxWidth: 100, maxHeight: 100}) +
+          `" onclick="openModal();currentSlide(1)" class="placethumb">
           `
       section.innerHTML = html
       placesDiv.appendChild(section)
+      section.addEventListener('click', event => {
+        let req = {
+          placeId: section.id,
+          fields: ['photos']
+        };
+        service.getDetails(req, photosCallback);
+        console.log("clicked")
+
+      })
       markersArray.push(
       new google.maps.Marker({
         map,
@@ -78,8 +102,31 @@ function placesResultCallback(results, status){
         position: place.geometry.location,
       }));
     }
-
   }
+}
+
+function photosCallback(place, status){
+  if (status == google.maps.places.PlacesServiceStatus.OK) {
+    photosDiv.style.display = "block"
+    photosDiv.innerHTML = ""
+    let i = 1
+    place.photos.forEach(p => {
+      let url = p.getUrl({maxWidth: 1200, maxHeight: 800})
+      let a = document.createElement("div")
+          a.className="mySlides"
+              let b =
+          ` 
+                 <div class="numbertext">`+ i + " / " + place.photos.size + `</div> 
+                 <img src="`+ url +`" class="slideImg"> 
+          `
+      a.innerHTML = b
+      photosDiv.appendChild(a)
+      i++
+    })
+    openModal()
+  }
+
+
 }
 
 function createMarkers(places, map){
@@ -145,3 +192,55 @@ function setStars(floatStars){
       break;
   }
 }
+function setBubble(range, bubble) {
+  const val = range.value;
+  const min = range.min ? range.min : 0;
+  const max = range.max ? range.max : 100;
+  const newVal = Number(((val - min) * 100) / (max - min));
+  bubble.innerHTML =  (Math.round((val / 1000)*10)/10) + " KM";
+  bubble.style.left = `calc(${newVal}% + (${8 - newVal * 0.15}px))`;
+}
+
+function getLocation() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(position => {
+      defaultLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude)
+      map.setCenter(defaultLocation)
+    });
+  } else {
+    alert("Geolocation is not supported by this browser.");
+  }
+}
+function openModal() {
+  document.getElementById("placephotos").style.display = "block";
+
+  showSlides(slideIndex);
+}
+function closeModal() {
+  document.getElementById("placephotos").style.display = "none";
+}
+
+
+
+function plusSlides(n) {
+  showSlides(slideIndex += n);
+}
+
+function showSlides(n) {
+  let i;
+  let slides = document.getElementsByClassName("mySlides");
+  let dots = document.getElementsByClassName("demo");
+  let captionText = document.getElementById("caption");
+  if (n > slides.length) {slideIndex = 1}
+  if (n < 1) {slideIndex = slides.length}
+  for (i = 0; i < slides.length; i++) {
+    slides[i].style.display = "none";
+  }
+  for (i = 0; i < dots.length; i++) {
+    dots[i].className = dots[i].className.replace(" active", "");
+  }
+  slides[slideIndex-1].style.display = "flex";
+  dots[slideIndex-1].className += " active";
+  captionText.innerHTML = dots[slideIndex-1].alt;
+}
+

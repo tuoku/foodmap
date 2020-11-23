@@ -4,11 +4,10 @@
     <meta charset="UTF-8">
     <title>FoodMap</title>
     <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB3Aamn6SJU7GtXtjccEJx6_uoFhuDJHMA&callback=initMap&libraries=places&v=weekly"
-            defer>
-    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB3Aamn6SJU7GtXtjccEJx6_uoFhuDJHMA&callback=initMap&libraries=places&v=weekly" defer></script>
     <link rel="stylesheet" type="text/css" href="./style.css"/>
     <script src="./index.js"></script>
+    <link rel="stylesheet" href="lightbox.css"/>
 </head>
 <body>
     <div id="map"></div>
@@ -16,8 +15,16 @@
         <input type="text" placeholder="What do yo want to eat? (e.g pizza)" id="search-field">
     </div>
     <div id="range-slider">
-        <input type="range" min="100" max="50000" value="100" id="range-input">
+        <input type="range" min="100" max="10000" value="1000" id="range-input">
+        <output id="bubble"></output>
     </div>
     <div id="places"></div>
+    <div id="placephotos">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <div id="modal-content"></div>
+        <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+        <a class="next" onclick="plusSlides(1)">&#10095;</a>
+    </div>
+    <script src="lightbox-plus-jquery.js"></script>
 </body>
 </html>
