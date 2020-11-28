@@ -193,7 +193,17 @@ h4{
     top:30px;
     width:100px;
     height: 40px;
+    display: none;
 }
+#uploadSnackbar{
+    display: none;
+    position:absolute;
+    top:100px;
+    width:250px;
+    height:50px;
+    font-size: x-large;
+    text-align: center;
 
+}
 
 

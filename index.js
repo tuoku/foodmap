@@ -309,19 +309,35 @@ function chooseImage(id){
   let rdyimg
   let idd = id.id + "input"
   let element = document.getElementById(idd)
-
+  let btn = document.getElementById("uploadToFirebase")
+  let snackbar = document.getElementById("uploadSnackbar")
   element.click()
   element.addEventListener("change", function() {
       previewDiv.style.display = "flex"
       previewImg.src = window.URL.createObjectURL(this.files[0])
     previewImg.width = "800"
       previewImg.onload = function() {
-        isFood(previewImg)
+        let result;
+        isFood(previewImg).then(res => {
+          result = res
+
+        if(result){                   // if users photo contains food
+          btn.style.display = "block" // show the upload button
+          snackbar.style.backgroundColor = "green"
+          snackbar.innerText = "Great pic!"
+          snackbar.style.display = "block"
+        } else {
+          btn.style.display = "none"
+          snackbar.style.backgroundColor = "red"
+          snackbar.innerText= "Your picture must have food in it!"
+          snackbar.style.display = "block"
+        }
+      })
       }
 
       rdyimg = this.files[0]
   })
-  let btn = document.getElementById("uploadToFirebase")
+
   btn.addEventListener("click", function() {
     uploadImage(id.id, rdyimg)
   })
@@ -348,9 +364,20 @@ function uploadImage(id, img){
 function modelLoaded(){
   console.log("ml5 ready")
 }
-
+// (probably) returns true if given image contains food.
+// Model only has 2 labels; food and notfood.
+// Combined confidence of both labels is always 1.0,
+// so "confidence > 0.9" means the model is atleast 90% sure it sees food.
+// param img is an <img> element
 function isFood(img){
-  classifier.classify(img).then(results => {
-    console.log(results)
+  return new Promise((resolve,reject) => {
+    classifier.classify(img).then(results => {
+      console.log(results)
+      if(results[0].label == "food" && results[0].confidence > 0.9){ // adjust this number to adjust sensitivity
+        resolve(true)
+      } else {
+        resolve(false)
+      }
   })
+})
 }
