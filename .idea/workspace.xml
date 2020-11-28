@@ -19,13 +19,13 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d6195f2e-6eeb-4ce0-a1df-cc2c7dc9e061" name="Default Changelist" comment="photos + rangebubble + lightbox">
-      <change afterPath="$PROJECT_DIR$/img/camera.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/foodmap.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/foodmap.iml" afterDir="false" />
+    <list default="true" id="d6195f2e-6eeb-4ce0-a1df-cc2c7dc9e061" name="Default Changelist" comment="image upload">
+      <change afterPath="$PROJECT_DIR$/tensorflow/metadata.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tensorflow/model.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tensorflow/weights.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/style.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -61,6 +61,11 @@
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\kuhat\WebstormProjects\foodmap\tensorflow" />
+    </key>
+  </component>
   <component name="RunManager">
     <configuration name="index.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/foodmap/index.html" useBuiltInWebServerPort="true">
       <method v="2" />
@@ -83,7 +88,7 @@
       <workItem from="1605170362267" duration="18000" />
       <workItem from="1605944544214" duration="2423000" />
       <workItem from="1605947006379" duration="27758000" />
-      <workItem from="1606504951263" duration="14840000" />
+      <workItem from="1606504951263" duration="18596000" />
     </task>
     <task id="LOCAL-00001" summary="search bar + radius slider">
       <created>1605091308716</created>
@@ -99,7 +104,14 @@
       <option name="project" value="LOCAL" />
       <updated>1605976802081</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="image upload">
+      <created>1606556762384</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1606556762384</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -121,7 +133,8 @@
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="search bar + radius slider" />
     <MESSAGE value="places list" />
-    <option name="LAST_COMMIT_MESSAGE" value="places list" />
+    <MESSAGE value="image upload" />
+    <option name="LAST_COMMIT_MESSAGE" value="image upload" />
   </component>
   <component name="WindowStateProjectService">
     <state x="647" y="310" key="Github.ShareDialog" timestamp="1605023289832">
@@ -196,10 +209,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state width="1515" height="261" key="GridCell.Tab.3.right/0.0.1536.824@0.0.1536.824" timestamp="1605116994237" />
-    <state x="361" y="145" key="Vcs.Push.Dialog.v2" timestamp="1605976804664">
+    <state x="361" y="145" key="Vcs.Push.Dialog.v2" timestamp="1606556765273">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="361" y="145" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1605976804664" />
+    <state x="361" y="145" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1606556765273" />
     <state x="425" y="187" key="run.anything.popup" timestamp="1606034609145">
       <screen x="0" y="0" width="1536" height="824" />
     </state>

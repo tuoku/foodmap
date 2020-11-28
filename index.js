@@ -2,7 +2,7 @@
 
 let map, service, infoWindow, defaultLocation, rangeValue, searchString;
 let placesDiv, stars, photosDiv, bubble, firebaseConfig, previewImg, previewDiv;
-let storage
+let storage, classifier
 let markersArray = [];
 let placesArray = [];
 let slideIndex = 1;
@@ -83,6 +83,7 @@ function initMap(){
  */
   service = new google.maps.places.PlacesService(map);
   firebase.initializeApp(firebaseConfig);
+  classifier = ml5.imageClassifier('./tensorflow/model.json', modelLoaded);
 
 
 }
@@ -313,6 +314,11 @@ function chooseImage(id){
   element.addEventListener("change", function() {
       previewDiv.style.display = "flex"
       previewImg.src = window.URL.createObjectURL(this.files[0])
+    previewImg.width = "800"
+      previewImg.onload = function() {
+        isFood(previewImg)
+      }
+
       rdyimg = this.files[0]
   })
   let btn = document.getElementById("uploadToFirebase")
@@ -338,3 +344,13 @@ function uploadImage(id, img){
   })
 }
 
+// Called when ml5.js initialized
+function modelLoaded(){
+  console.log("ml5 ready")
+}
+
+function isFood(img){
+  classifier.classify(img).then(results => {
+    console.log(results)
+  })
+}
