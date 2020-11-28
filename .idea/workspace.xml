@@ -19,9 +19,9 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d6195f2e-6eeb-4ce0-a1df-cc2c7dc9e061" name="Default Changelist" comment="places list">
-      <change afterPath="$PROJECT_DIR$/lightbox-plus-jquery.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lightbox.css" afterDir="false" />
+    <list default="true" id="d6195f2e-6eeb-4ce0-a1df-cc2c7dc9e061" name="Default Changelist" comment="photos + rangebubble + lightbox">
+      <change afterPath="$PROJECT_DIR$/img/camera.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/foodmap.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/foodmap.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/index.js" afterDir="false" />
@@ -83,6 +83,7 @@
       <workItem from="1605170362267" duration="18000" />
       <workItem from="1605944544214" duration="2423000" />
       <workItem from="1605947006379" duration="27758000" />
+      <workItem from="1606504951263" duration="14840000" />
     </task>
     <task id="LOCAL-00001" summary="search bar + radius slider">
       <created>1605091308716</created>
@@ -114,6 +115,7 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />

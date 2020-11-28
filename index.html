@@ -25,6 +25,13 @@
         <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
         <a class="next" onclick="plusSlides(1)">&#10095;</a>
     </div>
+    <div id="uploadPreview">
+        <span class="close" onclick="closeUploadPreview()">&times;</span>
+        <button id="uploadToFirebase">UPLOAD</button>
+        <img src="" id="toUpload" class="slideImg"/>
+    </div>
     <script src="lightbox-plus-jquery.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-storage.js"></script>
 </body>
 </html>

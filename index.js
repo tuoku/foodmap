@@ -1,7 +1,8 @@
 'use strict';
 
-let map, service, infoWindow, defaultLocation, rangeValue, searchString
-let placesDiv, stars, photosDiv, bubble
+let map, service, infoWindow, defaultLocation, rangeValue, searchString;
+let placesDiv, stars, photosDiv, bubble, firebaseConfig, previewImg, previewDiv;
+let storage
 let markersArray = [];
 let placesArray = [];
 let slideIndex = 1;
@@ -9,6 +10,26 @@ let slideIndex = 1;
 rangeValue = 1000;
 
 function initMap(){
+
+  //-------------------------------------------------------
+  //DO NOT TOUCH!! >:(
+  firebaseConfig = {
+    apiKey: "AIzaSyCOgbsMFFs0zhIP9ht6cxzwccOs88gbqCM",
+    authDomain: "foodmap-295213.firebaseapp.com",
+    databaseURL: "https://foodmap-295213.firebaseio.com",
+    projectId: "foodmap-295213",
+    storageBucket: "foodmap-295213.appspot.com",
+    messagingSenderId: "789924552582",
+    appId: "1:789924552582:web:810068b3e4a771c2031607"
+  };
+  //-------------------------------------------------------
+  // Firebase storage bucket structure:
+  // directory named $restaurantID / $photoindex.jpg
+  // where $restaurantID = the unique id from PlacesAPI
+  // and $photoindex = index of photo; first photo uploaded to restaurant has index of 1
+  // examples:
+  // ChIJEdEzdqn0jUYRtnfd75LPWBM/1.jpg
+  // ChIJcZ3xnWP1jUYR8TBEhDP7J3o/7.jpg
 
   defaultLocation = new google.maps.LatLng(60.223978, 24.758720); // Karamalmi :)
   getLocation()
@@ -19,6 +40,8 @@ function initMap(){
    placesDiv.style.display = "none"
    photosDiv = document.getElementById("modal-content");
    photosDiv.style.display = "none"
+   previewImg = document.getElementById("toUpload");
+   previewDiv = document.getElementById("uploadPreview");
 
   rangeInput.addEventListener("change", function(){
     rangeValue = rangeInput.value;
@@ -59,6 +82,9 @@ function initMap(){
 
  */
   service = new google.maps.places.PlacesService(map);
+  firebase.initializeApp(firebaseConfig);
+
+
 }
 
 function placesResultCallback(results, status){
@@ -79,22 +105,17 @@ function placesResultCallback(results, status){
       pics = place.photos
       let html =
           `
+            <div style="height:0px;overflow:hidden">    
+                <input type="file" id="`+ section.id.toString() + 'input' + `" accept="image/*"/>    
+            </div>
+            <button type="button" class="imgButton" onclick="chooseImage(`+ section.id.toString() +`);"></button>
             <h4> ` + place.name + ` </h4>
             <p class="stars">` + stars + `</p>
             <img src="`+ pics[0].getUrl({maxWidth: 100, maxHeight: 100}) +
-          `" onclick="openModal();currentSlide(1)" class="placethumb">
+          `" onclick="fetchAllImgs(` + section.id + `);" class="placethumb">
           `
       section.innerHTML = html
       placesDiv.appendChild(section)
-      section.addEventListener('click', event => {
-        let req = {
-          placeId: section.id,
-          fields: ['photos']
-        };
-        service.getDetails(req, photosCallback);
-        console.log("clicked")
-
-      })
       markersArray.push(
       new google.maps.Marker({
         map,
@@ -103,6 +124,42 @@ function placesResultCallback(results, status){
       }));
     }
   }
+}
+
+// Fetches all user-submitted images from firebase storage for a given restaurant
+// and adds them to the slideshow.
+// Also makes a PlaceDetails request with photosCallback.
+// photosCallback adds images from PlacesAPI to the slideshow, in addition to the
+// user submitted photos.
+function fetchAllImgs(id){
+  storage = firebase.storage()
+  let storeRef = storage.ref()
+  let resRef = storeRef.child(id.id)
+  resRef.listAll().then(function(res) {
+    res.items.forEach(r => {
+      let url
+      r.getDownloadURL().then(function(r){
+        url = r
+        let a = document.createElement("div")
+        a.className="mySlides"
+        let b =
+            ` 
+                 
+                 <img src="`+ url +`" class="slideImg"> 
+          `
+        a.innerHTML = b
+        photosDiv.appendChild(a)
+      })
+    })
+  })
+
+
+  let req = {
+    placeId: id.id,
+    fields: ['photos']
+  };
+  service.getDetails(req, photosCallback);
+  console.log("clicked")
 }
 
 function photosCallback(place, status){
@@ -219,6 +276,9 @@ function openModal() {
 function closeModal() {
   document.getElementById("placephotos").style.display = "none";
 }
+ function closeUploadPreview(){
+  previewDiv.style.display = "none"
+ }
 
 
 
@@ -242,5 +302,39 @@ function showSlides(n) {
   slides[slideIndex-1].style.display = "flex";
   dots[slideIndex-1].className += " active";
   captionText.innerHTML = dots[slideIndex-1].alt;
+}
+// Param is ID of restaurant that photo will be linked to
+function chooseImage(id){
+  let rdyimg
+  let idd = id.id + "input"
+  let element = document.getElementById(idd)
+
+  element.click()
+  element.addEventListener("change", function() {
+      previewDiv.style.display = "flex"
+      previewImg.src = window.URL.createObjectURL(this.files[0])
+      rdyimg = this.files[0]
+  })
+  let btn = document.getElementById("uploadToFirebase")
+  btn.addEventListener("click", function() {
+    uploadImage(id.id, rdyimg)
+  })
+}
+function uploadImage(id, img){
+  storage = firebase.storage()
+  let i
+  let storeRef = storage.ref();
+  let resRef = storeRef.child(id)
+  resRef.listAll().then(function(res){
+    i = res.items.length + 1
+    console.log(i)
+    let filename = i + ".jpg"
+    let fileRef = resRef.child(filename)
+    fileRef.put(img).then(function(snapshot){
+      console.log("uploaded img to " + fileRef)
+      previewDiv.style.display = "none"
+  })
+
+  })
 }
 

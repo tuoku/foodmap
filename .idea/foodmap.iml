@@ -8,5 +8,12 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="@tensorflow" level="application" />
+    <orderEntry type="library" name="@tensorflow-models" level="application" />
+    <orderEntry type="library" name="@tensorflow/tfjs" level="application" />
+    <orderEntry type="library" name="firebase-app" level="application" />
+    <orderEntry type="library" name="firebase-firestore" level="application" />
+    <orderEntry type="library" name="ml5" level="application" />
+    <orderEntry type="library" name="firebase-storage" level="application" />
   </component>
 </module>

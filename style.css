@@ -81,7 +81,7 @@ body{
     margin:auto;
 }
 
-#placephotos {
+#placephotos, #uploadPreview {
     display: none;
     position: fixed;
     z-index: 10;
@@ -167,5 +167,33 @@ body{
     justify-content: center;
 
 }
+.imgButton{
+    height:40px;
+    width:40px;
+    background-image: url("img/camera.png");
+    outline:none;
+    border: none;
+    background-color: transparent;
+    position:relative;
+    top:-15px;
+    left:215px;
+    right:0px;
+    z-index: 10;
+}
+
+#uploadPreview {
+justify-content: center;
+}
+h4{
+    margin:0;
+}
+
+#uploadToFirebase{
+    position:absolute;
+    top:30px;
+    width:100px;
+    height: 40px;
+}
+
 
 
