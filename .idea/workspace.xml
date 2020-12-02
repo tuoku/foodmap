@@ -19,10 +19,13 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d6195f2e-6eeb-4ce0-a1df-cc2c7dc9e061" name="Default Changelist" comment="Custom TensorFlow model for food recognition">
+    <list default="true" id="d6195f2e-6eeb-4ce0-a1df-cc2c7dc9e061" name="Default Changelist" comment="food recognition for user-submitted images before upload (not very accurate yet)">
+      <change beforePath="$PROJECT_DIR$/.idea/foodmap.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/foodmap.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lightbox-plus-jquery.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lightbox.css" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/style.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -86,7 +89,7 @@
       <workItem from="1605170362267" duration="18000" />
       <workItem from="1605944544214" duration="2423000" />
       <workItem from="1605947006379" duration="27758000" />
-      <workItem from="1606504951263" duration="30341000" />
+      <workItem from="1606504951263" duration="68606000" />
     </task>
     <task id="LOCAL-00001" summary="search bar + radius slider">
       <created>1605091308716</created>
@@ -116,7 +119,14 @@
       <option name="project" value="LOCAL" />
       <updated>1606569177634</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="food recognition for user-submitted images before upload (not very accurate yet)">
+      <created>1606590998943</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1606590998943</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -140,7 +150,8 @@
     <MESSAGE value="places list" />
     <MESSAGE value="image upload" />
     <MESSAGE value="Custom TensorFlow model for food recognition" />
-    <option name="LAST_COMMIT_MESSAGE" value="Custom TensorFlow model for food recognition" />
+    <MESSAGE value="food recognition for user-submitted images before upload (not very accurate yet)" />
+    <option name="LAST_COMMIT_MESSAGE" value="food recognition for user-submitted images before upload (not very accurate yet)" />
   </component>
   <component name="WindowStateProjectService">
     <state x="647" y="310" key="Github.ShareDialog" timestamp="1605023289832">
@@ -215,10 +226,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state width="1515" height="261" key="GridCell.Tab.3.right/0.0.1536.824@0.0.1536.824" timestamp="1605116994237" />
-    <state x="361" y="145" key="Vcs.Push.Dialog.v2" timestamp="1606569181049">
+    <state x="361" y="145" key="Vcs.Push.Dialog.v2" timestamp="1606591004377">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="361" y="145" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1606569181049" />
+    <state x="361" y="145" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1606591004377" />
     <state x="425" y="187" key="run.anything.popup" timestamp="1606034609145">
       <screen x="0" y="0" width="1536" height="824" />
     </state>

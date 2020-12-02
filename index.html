@@ -2,38 +2,93 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>FoodMap</title>
     <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB3Aamn6SJU7GtXtjccEJx6_uoFhuDJHMA&callback=initMap&libraries=places&v=weekly" defer></script>
     <link rel="stylesheet" type="text/css" href="./style.css"/>
     <script src="./index.js"></script>
-    <link rel="stylesheet" href="lightbox.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB3Aamn6SJU7GtXtjccEJx6_uoFhuDJHMA&callback=initMap&libraries=places&v=weekly"
+            defer></script>
+
 </head>
 <body>
-    <div id="map"></div>
-    <div id="search">
-        <input type="text" placeholder="What do yo want to eat? (e.g pizza)" id="search-field">
+<header>
+    <nav class="navbar navbar-expand-sm bg-light fixed-top">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" href="index.html">Discover</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">About</a>
+            </li>
+        </ul>
+        <div class="input-group col-4 mb-3 mx-auto" id="search">
+            <input type="text" class="form-control" placeholder="What do yo want to eat? (e.g pizza)" id="search-field">
+            <div class="input-group-append">
+                <button class="btn btn-success" type="submit">Go</button>
+            </div>
+        </div>
+    </nav>
+</header>
+<main>
+    <div class="container-fluid" id="mapContainer">
+        <div id="map"></div>
+        <div id="range-slider">
+            <input type="range" min="100" max="10000" value="1000" id="range-input">
+            <output id="bubble"></output>
+        </div>
+        <div id="myCarousel" class="carousel slide" data-ride="carousel">
+            <ol class="carousel-indicators" id="inds"></ol>
+            <div class="carousel-inner" id="bootSlides"></div>
+
+            <a class="carousel-control-prev" href="#myCarousel" data-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#myCarousel" data-slide="next">
+                <span class="carousel-control-next-icon"></span>
+                <span class="sr-only">Next</span>
+            </a>
+            <button type="button" class="close" aria-label="Close" id="closeSlides" onclick="closeModal()" style="z-index: 12">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
     </div>
-    <div id="range-slider">
-        <input type="range" min="100" max="10000" value="1000" id="range-input">
-        <output id="bubble"></output>
+    <div class="container-fluid" id="placecontainer">
+        <div class="row-cols-1" id="places"></div>
     </div>
-    <div id="places"></div>
-    <div id="placephotos">
-        <span class="close" onclick="closeModal()">&times;</span>
-        <div id="modal-content"></div>
-        <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
-        <a class="next" onclick="plusSlides(1)">&#10095;</a>
+    <div class="modal fade" id="pickerModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Upload photo</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body" id="modalImgPreview">
+                    <div class="alert alert-light" id="uploadSnackbar">Checking photo...</div>
+                    <img class="img-fluid" id="toUpload" src="">
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="uploadToFirebase" disabled>Upload</button>
+                </div>
+
+            </div>
+        </div>
     </div>
-    <div id="uploadPreview">
-        <span class="close" onclick="closeUploadPreview()">&times;</span>
-        <button id="uploadToFirebase">UPLOAD</button>
-        <div id="uploadSnackbar"></div>
-        <img src="" id="toUpload" class="slideImg"/>
-    </div>
-    <script src="lightbox-plus-jquery.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-storage.js"></script>
-    <script src="https://unpkg.com/ml5@latest/dist/ml5.min.js"></script>
+</main>
+<script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-storage.js"></script>
+<script src="https://unpkg.com/ml5@latest/dist/ml5.min.js"></script>
 </body>
 </html>

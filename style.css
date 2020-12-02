@@ -1,29 +1,22 @@
 
 
+#mapContainer  {
+    height: 442px;
+    padding:0;
+    position: relative;
+    top:70px;
+}
 #map {
-    height: 100%;
+    height: 442px;
 }
-html,
-body{
-    height: 100%;
-    margin: 0;
-    padding: 0;
-}
+
+
 
 #search {
-    position: absolute;
-    top: 15px;
-    left: 25%;
-    z-index: 5;
-    background-color: white;
-    text-align: center;
-    line-height: 30px;
-    padding-left: 10px;
-    width: 50%;
-    border-radius: 25px;
-    height: 50px;
+    position:relative;
+    left: -135px;
 }
-
+/*
 #search-field {
     width: 100%;
     height: 90%;
@@ -31,10 +24,11 @@ body{
     border: none;
     outline: none;
 }
+*/
 
 #range-slider {
     position: absolute;
-    top: 70px;
+    top: 15px;
     width:50%;
     left:25%;
 }
@@ -45,40 +39,25 @@ body{
     background: none;
     outline: none;
 }
+
 #places {
-    position:absolute;
-    bottom:0px;
-    width:100%;
-    height: 200px;
-    z-index: 6;
-    background-color: white;
-    display: flex;
     overflow: auto;
     white-space: nowrap;
-    border: white;
-    border-radius: 25px;
 }
+
 .placesection {
-    border: black;
-    height: 85%;
-    background-color: white;
-    padding: 10px;
-    outline: black;
-    transition: 0.2s;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-    margin-left:10px;
-    margin-top:5px;
-}
-.placesection:hover {
-    transform: scale(1.1);
-    background-color: aliceblue;
+   justify-content: center;
+    margin-top:10px;
 }
 
 .stars {
     align-items: center;
     color: gold;
-    width:50%;
+    width:70%;
     margin:auto;
+    text-align: center;
+    font-size: x-large;
+
 }
 
 #placephotos, #uploadPreview {
@@ -101,11 +80,15 @@ body{
     position: absolute;
     border-radius: 4px;
     left: 50%;
+    top:20px;
     transform: translateX(-50%);
 }
 
 .placethumb {
     transition: 0.2s;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    height:100px;
+    width:100px;
 }
 .placethumb:hover {
     transform:scale(1.1);
@@ -168,26 +151,22 @@ body{
 
 }
 .imgButton{
-    height:40px;
-    width:40px;
-    background-image: url("img/camera.png");
-    outline:none;
-    border: none;
-    background-color: transparent;
-    position:relative;
-    top:-15px;
-    left:215px;
-    right:0px;
+    background-color: white;
     z-index: 10;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 25px;
+    border:none;
+    outline:none;
 }
 
 #uploadPreview {
 justify-content: center;
+    z-index:10;
 }
 h4{
-    margin:0;
+    text-align: center;
 }
-
+/*
 #uploadToFirebase{
     position:absolute;
     top:30px;
@@ -195,6 +174,8 @@ h4{
     height: 40px;
     display: none;
 }
+
+
 #uploadSnackbar{
     display: none;
     position:absolute;
@@ -205,5 +186,17 @@ h4{
     text-align: center;
 
 }
+*/
 
+#myCarousel {
+    position: relative;
+    top: -442px;
+    background-color: #000000b5;
+    z-index: 11;
+}
+
+#placecontainer {
+    position: relative;
+    top:70px;
+}
 
