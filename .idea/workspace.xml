@@ -19,14 +19,8 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d6195f2e-6eeb-4ce0-a1df-cc2c7dc9e061" name="Default Changelist" comment="bootstrap migration">
-      <change afterPath="$PROJECT_DIR$/lightbox-plus-jquery.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lightbox.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/foodmap.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/foodmap.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
+    <list default="true" id="d6195f2e-6eeb-4ce0-a1df-cc2c7dc9e061" name="Default Changelist" comment="no ei sit bootsträppäillä prkl">
       <change beforePath="$PROJECT_DIR$/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/style.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -89,7 +83,7 @@
       <workItem from="1605170362267" duration="18000" />
       <workItem from="1605944544214" duration="2423000" />
       <workItem from="1605947006379" duration="27758000" />
-      <workItem from="1606504951263" duration="73280000" />
+      <workItem from="1606504951263" duration="73629000" />
     </task>
     <task id="LOCAL-00001" summary="search bar + radius slider">
       <created>1605091308716</created>
@@ -133,7 +127,14 @@
       <option name="project" value="LOCAL" />
       <updated>1606903490013</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="no ei sit bootsträppäillä prkl">
+      <created>1606921779309</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1606921779309</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -159,7 +160,8 @@
     <MESSAGE value="Custom TensorFlow model for food recognition" />
     <MESSAGE value="food recognition for user-submitted images before upload (not very accurate yet)" />
     <MESSAGE value="bootstrap migration" />
-    <option name="LAST_COMMIT_MESSAGE" value="bootstrap migration" />
+    <MESSAGE value="no ei sit bootsträppäillä prkl" />
+    <option name="LAST_COMMIT_MESSAGE" value="no ei sit bootsträppäillä prkl" />
   </component>
   <component name="WindowStateProjectService">
     <state x="93" y="93" width="1350" height="638" key="DiffContextDialog" timestamp="1606919125291">
@@ -238,10 +240,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state width="1515" height="261" key="GridCell.Tab.3.right/0.0.1536.824@0.0.1536.824" timestamp="1605116994237" />
-    <state x="361" y="145" key="Vcs.Push.Dialog.v2" timestamp="1606903495273">
+    <state x="361" y="145" key="Vcs.Push.Dialog.v2" timestamp="1606921783544">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="361" y="145" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1606903495273" />
+    <state x="361" y="145" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1606921783544" />
     <state x="93" y="93" width="1350" height="638" key="com.intellij.history.integration.ui.views.DirectoryHistoryDialog" timestamp="1606919125291">
       <screen x="0" y="0" width="1536" height="824" />
     </state>

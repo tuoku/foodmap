@@ -2,7 +2,7 @@
 
 let map, service, infoWindow, defaultLocation, rangeValue, searchString;
 let placesDiv, stars, photosDiv, bubble, firebaseConfig, previewImg, previewDiv;
-let storage, classifier
+let storage, classifier, rangeCircle
 let markersArray = [];
 let placesArray = [];
 let slideIndex = 1;
@@ -50,6 +50,7 @@ function initMap(){
 
    rangeInput.addEventListener("input", () => {
      setBubble(rangeInput, bubble)
+     rangeCircle.setRadius(Number(rangeInput.value))
    });
    setBubble(rangeInput, bubble)
 
@@ -69,18 +70,31 @@ function initMap(){
 
 
   infoWindow = new google.maps.InfoWindow();
-/*
-  let request = {
-    location: defaultLocation, // Center of search circle
-    radius: "10000",  //Radius of search circle in meters (max 50 000)
-    type: ["restaurant"], // Type of establishment. NOT A KEYWORD!
-  }
+
+  rangeCircle = new google.maps.Circle({
+    strokeColor: "#FF0000",
+    strokeOpacity: 0.8,
+    strokeWeight: 2,
+    fillColor: "#FF0000",
+    fillOpacity: 0.15,
+    map,
+    center: defaultLocation,
+    radius: 1000,
+  });
+
+
+  /*
+    let request = {
+      location: defaultLocation, // Center of search circle
+      radius: "10000",  //Radius of search circle in meters (max 50 000)
+      type: ["restaurant"], // Type of establishment. NOT A KEYWORD!
+    }
 
 
 
-  service.nearbySearch(request, placesResultCallback);
+    service.nearbySearch(request, placesResultCallback);
 
- */
+   */
   service = new google.maps.places.PlacesService(map);
   firebase.initializeApp(firebaseConfig);
   classifier = ml5.imageClassifier('./tensorflow/model.json', modelLoaded);
@@ -267,6 +281,7 @@ function getLocation() {
     navigator.geolocation.getCurrentPosition(position => {
       defaultLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude)
       map.setCenter(defaultLocation)
+      rangeCircle.setCenter(defaultLocation)
     });
   } else {
     alert("Geolocation is not supported by this browser.");
