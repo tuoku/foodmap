@@ -1,22 +1,30 @@
 
 
-#mapContainer  {
-    height: 442px;
-    padding:0;
-    position: relative;
-    top:70px;
-}
 #map {
-    height: 442px;
+    height: 100%;
 }
-
-
+html,
+body{
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
 
 #search {
-    position:relative;
-    left: -135px;
+    position: absolute;
+    top: 15px;
+    left: 25%;
+    z-index: 5;
+    background-color: white;
+    text-align: center;
+    line-height: 30px;
+    padding-left: 10px;
+    width: 50%;
+    border-radius: 25px;
+    height: 50px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 }
-/*
+
 #search-field {
     width: 100%;
     height: 90%;
@@ -24,11 +32,10 @@
     border: none;
     outline: none;
 }
-*/
 
 #range-slider {
     position: absolute;
-    top: 15px;
+    top: 70px;
     width:50%;
     left:25%;
 }
@@ -39,25 +46,46 @@
     background: none;
     outline: none;
 }
-
 #places {
+    position:absolute;
+    bottom:0px;
+    width:100%;
+    height: 200px;
+    z-index: 6;
+    background-color: white;
+    display: flex;
     overflow: auto;
     white-space: nowrap;
+    border: white;
+    border-radius: 25px;
 }
-
 .placesection {
-   justify-content: center;
-    margin-top:10px;
+    border: black;
+    height: 85%;
+    background-color: white;
+    padding: 10px;
+    outline: black;
+    transition: 0.2s;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    margin-left:10px;
+    margin-top:5px;
+    flex-direction: column;
+    justify-content: center;
+    display: flex;
+    text-align: center;
+    width:10%;
+    font-size: larger;
+}
+.placesection:hover {
+    transform: scale(1.1);
+    background-color: aliceblue;
 }
 
 .stars {
     align-items: center;
     color: gold;
-    width:70%;
+    width:50%;
     margin:auto;
-    text-align: center;
-    font-size: x-large;
-
 }
 
 #placephotos, #uploadPreview {
@@ -80,18 +108,20 @@
     position: absolute;
     border-radius: 4px;
     left: 50%;
-    top:20px;
     transform: translateX(-50%);
 }
 
 .placethumb {
     transition: 0.2s;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    height:100px;
-    width:100px;
+    border-radius: 50%;
+    min-height:100px;
+    min-width: 100px;
+    max-width: 100px;
+    max-height: 100px;
+    margin:auto;
 }
 .placethumb:hover {
-    transform:scale(1.1);
+
 }
 
 #modal-content {
@@ -151,22 +181,21 @@
 
 }
 .imgButton{
-    background-color: white;
-    z-index: 10;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    border-radius: 25px;
-    border:none;
+    width:90%;
     outline:none;
+    border: none;
+    background-color: white;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    margin:auto;
 }
 
 #uploadPreview {
 justify-content: center;
-    z-index:10;
 }
 h4{
-    text-align: center;
+    margin:0;
 }
-/*
+
 #uploadToFirebase{
     position:absolute;
     top:30px;
@@ -174,8 +203,6 @@ h4{
     height: 40px;
     display: none;
 }
-
-
 #uploadSnackbar{
     display: none;
     position:absolute;
@@ -186,17 +213,5 @@ h4{
     text-align: center;
 
 }
-*/
 
-#myCarousel {
-    position: relative;
-    top: -442px;
-    background-color: #000000b5;
-    z-index: 11;
-}
-
-#placecontainer {
-    position: relative;
-    top:70px;
-}
 

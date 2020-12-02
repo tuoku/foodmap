@@ -2,7 +2,7 @@
 
 let map, service, infoWindow, defaultLocation, rangeValue, searchString;
 let placesDiv, stars, photosDiv, bubble, firebaseConfig, previewImg, previewDiv;
-let storage, classifier, search, indicators, bootSlides, radiusCircle
+let storage, classifier
 let markersArray = [];
 let placesArray = [];
 let slideIndex = 1;
@@ -34,14 +34,14 @@ function initMap(){
   defaultLocation = new google.maps.LatLng(60.223978, 24.758720); // Karamalmi :)
   getLocation()
    let rangeInput = document.getElementById("range-input");
-   search = document.getElementById("search-field");
+   let search = document.getElementById("search-field");
    bubble = document.getElementById("bubble");
    placesDiv = document.getElementById("places")
    placesDiv.style.display = "none"
+   photosDiv = document.getElementById("modal-content");
+   photosDiv.style.display = "none"
    previewImg = document.getElementById("toUpload");
    previewDiv = document.getElementById("uploadPreview");
-   indicators = document.getElementById("inds");
-   bootSlides = document.getElementById("bootSlides");
 
   rangeInput.addEventListener("change", function(){
     rangeValue = rangeInput.value;
@@ -50,7 +50,6 @@ function initMap(){
 
    rangeInput.addEventListener("input", () => {
      setBubble(rangeInput, bubble)
-     radiusCircle.setRadius(Number(rangeInput.value))
    });
    setBubble(rangeInput, bubble)
 
@@ -70,30 +69,18 @@ function initMap(){
 
 
   infoWindow = new google.maps.InfoWindow();
-
-   radiusCircle = new google.maps.Circle({
-    strokeColor: "#FF0000",
-    strokeOpacity: 0.9,
-    strokeWeight: 2,
-    fillColor: "#FF0000",
-    fillOpacity: 0.35,
-    map,
-    center: defaultLocation,
-    radius: 1000,
-  });
-
-  /*
-    let request = {
-      location: defaultLocation, // Center of search circle
-      radius: "10000",  //Radius of search circle in meters (max 50 000)
-      type: ["restaurant"], // Type of establishment. NOT A KEYWORD!
-    }
+/*
+  let request = {
+    location: defaultLocation, // Center of search circle
+    radius: "10000",  //Radius of search circle in meters (max 50 000)
+    type: ["restaurant"], // Type of establishment. NOT A KEYWORD!
+  }
 
 
 
-    service.nearbySearch(request, placesResultCallback);
+  service.nearbySearch(request, placesResultCallback);
 
-   */
+ */
   service = new google.maps.places.PlacesService(map);
   firebase.initializeApp(firebaseConfig);
   classifier = ml5.imageClassifier('./tensorflow/model.json', modelLoaded);
@@ -111,8 +98,8 @@ function placesResultCallback(results, status){
       let place = results[i];
       setStars(place.rating);
       placesArray.push(place);
-      let section = document.createElement('div');
-      section.classList.add("col-2", "flex-column", "justify-content-center", "placesection", "mx-auto", "d-flex", "border-right", "border-right");
+      let section = document.createElement('section');
+      section.className = 'placesection';
       // ID of the element is the unique ID of the restaurant to make future lookups easier
       section.id = place.place_id;
       let pics = []
@@ -120,15 +107,16 @@ function placesResultCallback(results, status){
       let html =
           `
             <img src="`+ pics[0].getUrl({maxWidth: 100, maxHeight: 100}) +
-          `" onclick="fetchAllImgs(` + section.id + `);" class="rounded-circle mx-auto d-block placethumb" width="100" height="100">
-            
-            
-            <h4 class="d-block text-truncate"> ` + place.name + ` </h4>
+            `" onclick="fetchAllImgs(` + section.id + `);" class="placethumb">
+            <h4> ` + place.name + ` </h4>
             <p class="stars">` + stars + `</p>
-            <div style="height:0px;overflow:hidden">
-                 <input type="file" id="`+ section.id.toString() + 'input' + `" accept="image/*"/>
+            <div style="height:0px;overflow:hidden">    
+                <input type="file" id="`+ section.id.toString() + 'input' + `" accept="image/*"/>    
             </div>
-            <button type="button" class="imgButton" data-toggle="modal" data-target="#pickerModal" onclick="chooseImage(`+ section.id.toString() +`);">Add photo</button>
+            <button type="button" class="imgButton" onclick="chooseImage(`+ section.id.toString() +`);">Add photo</button>
+            
+            
+            
           `
       section.innerHTML = html
       placesDiv.appendChild(section)
@@ -180,34 +168,23 @@ function fetchAllImgs(id){
 
 function photosCallback(place, status){
   if (status == google.maps.places.PlacesServiceStatus.OK) {
-    document.getElementById("myCarousel").style.display = "block"
-    bootSlides.innerHTML = ""
-    indicators.innerHTML = ""
-    let i = 0
+    photosDiv.style.display = "block"
+    photosDiv.innerHTML = ""
+    let i = 1
     place.photos.forEach(p => {
-      let url = p.getUrl({maxWidth: 1200, maxHeight: 442})
-      let li = document.createElement("li")
-          li.setAttribute("data-target", "#myCarousel");
-          li.setAttribute("data-slide-to", i.toString());
-          if(i === 0){
-            li.classList.add("active")
-          }
-      indicators.appendChild(li)
-
-      let slide = document.createElement("div")
-          slide.classList.add("carousel-item")
-      if(i === 0){
-          slide.classList.add("active", "h-90")
-      }
-      let img = document.createElement("img")
-          img.src = url
-          img.classList.add("d-block", "mx-auto")
-      slide.appendChild(img)
-      bootSlides.appendChild(slide)
-
+      let url = p.getUrl({maxWidth: 1200, maxHeight: 800})
+      let a = document.createElement("div")
+          a.className="mySlides"
+              let b =
+          ` 
+                 <div class="numbertext">`+ i + " / " + place.photos.size + `</div> 
+                 <img src="`+ url +`" class="slideImg"> 
+          `
+      a.innerHTML = b
+      photosDiv.appendChild(a)
       i++
     })
-    //openModal()
+    openModal()
   }
 
 
@@ -245,7 +222,6 @@ function clearMarkers(){
 }
 
 function updateMarkers(){
-  searchString = search.value;
   let request = {
     location: defaultLocation, // Center of search circle
     radius: rangeValue,  //Radius of search circle in meters (max 50 000)
@@ -291,7 +267,6 @@ function getLocation() {
     navigator.geolocation.getCurrentPosition(position => {
       defaultLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude)
       map.setCenter(defaultLocation)
-      radiusCircle.center = defaultLocation
     });
   } else {
     alert("Geolocation is not supported by this browser.");
@@ -303,7 +278,7 @@ function openModal() {
   showSlides(slideIndex);
 }
 function closeModal() {
-  document.getElementById("myCarousel").style.display = "none";
+  document.getElementById("placephotos").style.display = "none";
 }
  function closeUploadPreview(){
   previewDiv.style.display = "none"
@@ -341,6 +316,7 @@ function chooseImage(id){
   let snackbar = document.getElementById("uploadSnackbar")
   element.click()
   element.addEventListener("change", function() {
+      previewDiv.style.display = "flex"
       previewImg.src = window.URL.createObjectURL(this.files[0])
     previewImg.width = "800"
       previewImg.onload = function() {
@@ -349,14 +325,15 @@ function chooseImage(id){
           result = res
 
         if(result){                   // if users photo contains food
-          btn.disabled = false        // enable upload button
-          snackbar.setAttribute("class", "")
-          snackbar.classList.add("alert", "alert-success")
+          btn.style.display = "block" // show the upload button
+          snackbar.style.backgroundColor = "green"
           snackbar.innerText = "Great pic!"
+          snackbar.style.display = "block"
         } else {
-          snackbar.setAttribute("class","")
-          snackbar.classList.add("alert", "alert-danger")
+          btn.style.display = "none"
+          snackbar.style.backgroundColor = "red"
           snackbar.innerText= "Your picture must have food in it!"
+          snackbar.style.display = "block"
         }
       })
       }
@@ -380,6 +357,7 @@ function uploadImage(id, img){
     let fileRef = resRef.child(filename)
     fileRef.put(img).then(function(snapshot){
       console.log("uploaded img to " + fileRef)
+      previewDiv.style.display = "none"
   })
 
   })
