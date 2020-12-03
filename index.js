@@ -2,10 +2,11 @@
 
 let map, service, infoWindow, defaultLocation, rangeValue, searchString;
 let placesDiv, stars, photosDiv, bubble, firebaseConfig, previewImg, previewDiv;
-let storage, classifier, rangeCircle
+let storage, classifier, rangeCircle, lastRange, directionsService, directionsRenderer
 let markersArray = [];
 let placesArray = [];
 let slideIndex = 1;
+let placeMap
 
 rangeValue = 1000;
 
@@ -33,6 +34,8 @@ function initMap(){
 
   defaultLocation = new google.maps.LatLng(60.223978, 24.758720); // Karamalmi :)
   getLocation()
+    placeMap = new Map()
+
    let rangeInput = document.getElementById("range-input");
    let search = document.getElementById("search-field");
    bubble = document.getElementById("bubble");
@@ -42,15 +45,21 @@ function initMap(){
    photosDiv.style.display = "none"
    previewImg = document.getElementById("toUpload");
    previewDiv = document.getElementById("uploadPreview");
+  directionsService = new google.maps.DirectionsService();
+  directionsRenderer = new google.maps.DirectionsRenderer();
+
 
   rangeInput.addEventListener("change", function(){
     rangeValue = rangeInput.value;
+    let bounds = rangeCircle.getBounds()
+    map.fitBounds(bounds)
     updateMarkers()
   }, false);
 
    rangeInput.addEventListener("input", () => {
      setBubble(rangeInput, bubble)
      rangeCircle.setRadius(Number(rangeInput.value))
+
    });
    setBubble(rangeInput, bubble)
 
@@ -72,15 +81,17 @@ function initMap(){
   infoWindow = new google.maps.InfoWindow();
 
   rangeCircle = new google.maps.Circle({
-    strokeColor: "#FF0000",
+    strokeColor: "#D32F2F",
     strokeOpacity: 0.8,
     strokeWeight: 2,
-    fillColor: "#FF0000",
-    fillOpacity: 0.15,
+    fillColor: "#D32F2F",
+    fillOpacity: 0.1,
     map,
     center: defaultLocation,
     radius: 1000,
   });
+
+  directionsRenderer.setMap(map)
 
 
   /*
@@ -118,6 +129,14 @@ function placesResultCallback(results, status){
       section.id = place.place_id;
       let pics = []
       pics = place.photos
+      let ltln = new google.maps.LatLng(place.geometry.location.lat(), place.geometry.location.lng());
+      console.log(ltln)
+      let name = place.name
+      let navBtn = document.createElement("button")
+      navBtn.type = "button"
+      navBtn.className = "imgButton"
+      navBtn.innerText="Get directions"
+
       let html =
           `
             <img src="`+ pics[0].getUrl({maxWidth: 100, maxHeight: 100}) +
@@ -133,6 +152,10 @@ function placesResultCallback(results, status){
             
           `
       section.innerHTML = html
+      section.appendChild(navBtn)
+      navBtn.addEventListener('click', function(){
+        getDirections(ltln)
+      })
       placesDiv.appendChild(section)
       markersArray.push(
       new google.maps.Marker({
@@ -236,6 +259,7 @@ function clearMarkers(){
 }
 
 function updateMarkers(){
+
   let request = {
     location: defaultLocation, // Center of search circle
     radius: rangeValue,  //Radius of search circle in meters (max 50 000)
@@ -399,3 +423,17 @@ function isFood(img){
   })
 })
 }
+
+function getDirections(LatLng){
+  let request = {
+    origin: defaultLocation,
+    destination: LatLng,
+    travelMode: 'DRIVING'
+  };
+  directionsService.route(request, function(result, status) {
+    if (status == 'OK') {
+      directionsRenderer.setDirections(result);
+    }
+  });
+}
+

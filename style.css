@@ -1,7 +1,7 @@
 
 
 #map {
-    height: 100%;
+    height: 450px;
 }
 html,
 body{
@@ -48,9 +48,9 @@ body{
 }
 #places {
     position:absolute;
-    bottom:0px;
+    top:450px;
     width:100%;
-    height: 200px;
+    height: 250px;
     z-index: 6;
     background-color: white;
     display: flex;
@@ -75,6 +75,7 @@ body{
     text-align: center;
     width:10%;
     font-size: larger;
+    border-radius:15px;
 }
 .placesection:hover {
     transform: scale(1.1);
@@ -119,6 +120,8 @@ body{
     max-width: 100px;
     max-height: 100px;
     margin:auto;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+
 }
 .placethumb:hover {
 
@@ -187,6 +190,7 @@ body{
     background-color: white;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
     margin:auto;
+    border-radius: 10px;
 }
 
 #uploadPreview {
@@ -194,6 +198,9 @@ justify-content: center;
 }
 h4{
     margin:0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 #uploadToFirebase{
@@ -212,6 +219,14 @@ h4{
     font-size: x-large;
     text-align: center;
 
+}
+
+.navButton {
+    max-height: 50px;
+    max-width: 50px;
+    height: 40px;
+    width: 40px;
+    background-image: url("img/navicon.png");
 }
 
 
