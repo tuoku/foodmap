@@ -1,50 +1,36 @@
-html, body{
+
+
+#map {
+    height: 450px;
+}
+html,
+body{
     height: 100%;
     margin: 0;
     padding: 0;
-    font-family: Tahoma, sans-serif;
-}
-
-header {
-    height: 50px;
-    width: 100%;
-    background-color: lightsteelblue;
-    margin: 0;
-    padding: 25px 0px;
 }
 
 #search {
-    margin-right: auto;
-    margin-left: auto;
-    width: 30%;
+    position: absolute;
+    top: 15px;
+    left: 25%;
+    z-index: 5;
+    background-color: white;
+    text-align: center;
+    line-height: 30px;
+    padding-left: 10px;
+    width: 50%;
+    border-radius: 25px;
+    height: 50px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 }
 
 #search-field {
-    width: 80%;
-    border-radius: 5px 0px 0px 5px;
+    width: 100%;
+    height: 90%;
+    border-radius: 25px;
     border: none;
     outline: none;
-    height: 40px;
-    margin: 0;
-    padding: 0;
-    padding-left: 15px;
-    float: left;
-
-}
-
-#search-button{
-    width: 15%;
-    height: 40px;
-    border: none;
-    background-color: blueviolet;
-    margin: 0;
-    padding: 0;
-    border-radius: 0px 5px 5px 0px;
-    float: left;
-}
-
-#search-button:active{
-    background-color: aquamarine;
 }
 
 #range-slider {
@@ -61,30 +47,38 @@ header {
     outline: none;
 }
 #places {
+    position:absolute;
+    top:450px;
     width:100%;
-    min-height: 200px;
-    padding: 25px 0px;
+    height: 250px;
     z-index: 6;
-    background-color: lightsteelblue;
+    background-color: white;
     display: flex;
-    flex-wrap: wrap;
     overflow: auto;
     white-space: nowrap;
+    border: white;
+    border-radius: 25px;
 }
 .placesection {
     border: black;
-    height: 250px;
+    height: 85%;
     background-color: white;
     padding: 10px;
     outline: black;
     transition: 0.2s;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
     margin-left:10px;
-    margin-top: 10px;
-    position: relative;
+    margin-top:5px;
+    flex-direction: column;
+    justify-content: center;
+    display: flex;
+    text-align: center;
+    width:10%;
+    font-size: larger;
+    border-radius:15px;
 }
 .placesection:hover {
-    transform: scale(1.05);
+    transform: scale(1.1);
     background-color: aliceblue;
 }
 
@@ -93,8 +87,6 @@ header {
     color: gold;
     width:50%;
     margin:auto;
-    padding: 25px;
-    font-size: 25px;
 }
 
 #placephotos, #uploadPreview {
@@ -122,17 +114,17 @@ header {
 
 .placethumb {
     transition: 0.2s;
-    height: 90px;
-    display: block;
-    margin-right: auto;
-    margin-left: auto;
-    padding: 15px;
-    object-fit: cover;
-    max-width: 200px;
-}
+    border-radius: 50%;
+    min-height:100px;
+    min-width: 100px;
+    max-width: 100px;
+    max-height: 100px;
+    margin:auto;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 
+}
 .placethumb:hover {
-    transform:scale(1.1);
+
 }
 
 #modal-content {
@@ -154,14 +146,14 @@ header {
     font-size: 35px;
     font-weight: bold;
 }
-
-.close:hover, .close:focus {
+.close:hover,
+.close:focus {
     color: #999;
     text-decoration: none;
     cursor: pointer;
 }
-
-.prev, .next {
+.prev,
+.next {
     cursor: pointer;
     position: absolute;
     top: 50%;
@@ -191,27 +183,24 @@ header {
     justify-content: center;
 
 }
-
 .imgButton{
-    width:35%;
+    width:90%;
     outline:none;
     border: none;
-    background-color: blueviolet;
+    background-color: white;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-    position: absolute;
-    bottom: 15px;
-    left: 15px;
-    text-align: center;
-    padding: 10px;
-
+    margin:auto;
+    border-radius: 10px;
 }
 
 #uploadPreview {
-    justify-content: center;
+justify-content: center;
 }
-
 h4{
     margin:0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 #uploadToFirebase{
@@ -221,7 +210,6 @@ h4{
     height: 40px;
     display: none;
 }
-
 #uploadSnackbar{
     display: none;
     position:absolute;
@@ -233,7 +221,12 @@ h4{
 
 }
 
-#map {
-    width: 100%;
-    height: 500px;
+.navButton {
+    max-height: 50px;
+    max-width: 50px;
+    height: 40px;
+    width: 40px;
+    background-image: url("img/navicon.png");
 }
+
+
