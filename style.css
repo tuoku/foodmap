@@ -6,22 +6,38 @@ html, body{
 }
 
 header {
-    height: 50px;
+    height: 30px;
     width: 100%;
     background-color: lightsteelblue;
     margin: 0;
     padding: 25px 0px;
 }
 
+button {
+    transition: 0.1s;
+    background-color: blueviolet;
+}
+
+button:hover {
+    background-color: cadetblue;
+    transform:scale(1.03);
+}
+
+button:active {
+    background-color: aquamarine;
+}
+
 #search {
     margin-right: auto;
     margin-left: auto;
     width: 30%;
+
 }
 
 #search-field {
     width: 80%;
     border-radius: 5px 0px 0px 5px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
     border: none;
     outline: none;
     height: 40px;
@@ -36,20 +52,16 @@ header {
     width: 15%;
     height: 40px;
     border: none;
-    background-color: blueviolet;
     margin: 0;
     padding: 0;
     border-radius: 0px 5px 5px 0px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
     float: left;
-}
-
-#search-button:active{
-    background-color: aquamarine;
 }
 
 #range-slider {
     position: absolute;
-    top: 70px;
+    top: 100px;
     width:50%;
     left:25%;
 }
@@ -196,7 +208,6 @@ header {
     width:35%;
     outline:none;
     border: none;
-    background-color: blueviolet;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
     position: absolute;
     bottom: 15px;
