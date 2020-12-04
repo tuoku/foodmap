@@ -8,16 +8,22 @@
     <link rel="stylesheet" type="text/css" href="./style.css"/>
     <script src="./index.js"></script>
     <link rel="stylesheet" href="lightbox.css"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Rubik&display=swap" rel="stylesheet">
 </head>
 <body>
+    <span class="close" id="mapClose" onclick="exitMap()">&times;</span>
+    <div id="directions"></div>
     <div id="map"></div>
     <div id="search">
         <input type="text" placeholder="What do yo want to eat? (e.g pizza)" id="search-field">
+        <button id="searchButton">Search</button>
     </div>
     <div id="range-slider">
         <input type="range" min="100" max="10000" value="1000" id="range-input">
         <output id="bubble"></output>
     </div>
+    <button id="expandPlaces" onclick="togglePlaces()"></button>
     <div id="places"></div>
     <div id="placephotos">
         <span class="close" onclick="closeModal()">&times;</span>

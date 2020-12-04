@@ -3,10 +3,12 @@
 let map, service, infoWindow, defaultLocation, rangeValue, searchString;
 let placesDiv, stars, photosDiv, bubble, firebaseConfig, previewImg, previewDiv;
 let storage, classifier, rangeCircle, lastRange, directionsService, directionsRenderer
+let placesExpanded = false
 let markersArray = [];
 let placesArray = [];
 let slideIndex = 1;
 let placeMap
+const proxy =  'https://cors-anywhere.herokuapp.com/';
 
 rangeValue = 1000;
 
@@ -92,6 +94,7 @@ function initMap(){
   });
 
   directionsRenderer.setMap(map)
+  directionsRenderer.setPanel(document.getElementById("directions"))
 
 
   /*
@@ -154,6 +157,14 @@ function placesResultCallback(results, status){
       section.innerHTML = html
       section.appendChild(navBtn)
       navBtn.addEventListener('click', function(){
+        directionsRenderer.setMap(map)
+        document.getElementById("map").style.height = "100vh"
+        document.getElementById("places").style.height = "0px"
+        document.getElementById("search").style.display = "none"
+        document.getElementById("range-slider").style.display = "none"
+        document.getElementById("mapClose").style.display = "block"
+        document.getElementById("directions").style.display ="block"
+        rangeCircle.opacity = 0
         getDirections(ltln)
       })
       placesDiv.appendChild(section)
@@ -210,15 +221,15 @@ function photosCallback(place, status){
     let i = 1
     place.photos.forEach(p => {
       let url = p.getUrl({maxWidth: 1200, maxHeight: 800})
+
       let a = document.createElement("div")
           a.className="mySlides"
-              let b =
-          ` 
-                 <div class="numbertext">`+ i + " / " + place.photos.size + `</div> 
-                 <img src="`+ url +`" class="slideImg"> 
-          `
-      a.innerHTML = b
-      photosDiv.appendChild(a)
+      let img = document.createElement("img")
+          img.src = url
+          img.className = "slideImg"
+        a.appendChild(img)
+        photosDiv.appendChild(a)
+
       i++
     })
     openModal()
@@ -437,3 +448,42 @@ function getDirections(LatLng){
   });
 }
 
+function exitMap(){
+  document.getElementById("map").style.height = "60vh"
+  document.getElementById("places").style.height = "40vh"
+  document.getElementById("search").style.display = "block"
+  document.getElementById("range-slider").style.display = "block"
+  document.getElementById("mapClose").style.display = "none"
+  document.getElementById("directions").style.display = "none"
+  rangeCircle.strokeOpacity = 0.8
+  rangeCircle.fillOpacity = 0.1
+  directionsRenderer.setMap(null)
+}
+
+function expandPlaces(){
+  document.getElementById("places").style.height = "80vh"
+  document.getElementById("places").style.top = "20vh"
+  document.getElementById("places").style.flexWrap = "wrap"
+  document.getElementById("map").style.height = "20vh"
+  document.getElementById("expandPlaces").style.top = "15vh"
+  document.getElementById("expandPlaces").style.transform = "rotate(180deg)"
+  placesExpanded = true
+
+}
+ function shrinkPlaces(){
+   document.getElementById("places").style.height = "40vh"
+   document.getElementById("places").style.top = "60vh"
+   document.getElementById("places").style.flexWrap = "nowrap"
+   document.getElementById("map").style.height = "60vh"
+   document.getElementById("expandPlaces").style.top = "56vh"
+   document.getElementById("expandPlaces").style.transform = "rotate(0deg)"
+   placesExpanded = false
+ }
+
+ function togglePlaces(){
+  if(placesExpanded){
+    shrinkPlaces()
+  }else{
+    expandPlaces()
+  }
+ }
