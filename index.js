@@ -42,7 +42,7 @@ function initMap(){
    let search = document.getElementById("search-field");
    bubble = document.getElementById("bubble");
    placesDiv = document.getElementById("places")
-   placesDiv.style.display = "none"
+   //placesDiv.style.display = "none"
    photosDiv = document.getElementById("modal-content");
    photosDiv.style.display = "none"
    previewImg = document.getElementById("toUpload");
