@@ -2,11 +2,13 @@
 
 let map, service, infoWindow, defaultLocation, rangeValue, searchString;
 let placesDiv, stars, photosDiv, bubble, firebaseConfig, previewImg, previewDiv;
-let storage, classifier, rangeCircle, lastRange, directionsService, directionsRenderer
+let storage, classifier, rangeCircle, lastRange, directionsService, directionsRenderer;
+let placesExpanded = false;
 let markersArray = [];
 let placesArray = [];
 let slideIndex = 1;
 let placeMap
+const proxy =  'https://cors-anywhere.herokuapp.com/';
 
 rangeValue = 1000;
 
@@ -65,11 +67,14 @@ function initMap(){
 
   search.addEventListener("keyup", function(event){
     if (event.keyCode === 13){
-      searchString = search.value;
-      updateMarkers()
+
     }
 
   }, false);
+   document.getElementById("searchButton").addEventListener("click", function(){
+     searchString = search.value;
+     updateMarkers()
+   })
 
   map = new google.maps.Map(document.getElementById("map"),{
     center: defaultLocation,
@@ -92,77 +97,78 @@ function initMap(){
   });
 
   directionsRenderer.setMap(map)
+  directionsRenderer.setPanel(document.getElementById("directions"))
 
-
-  /*
-    let request = {
-      location: defaultLocation, // Center of search circle
-      radius: "10000",  //Radius of search circle in meters (max 50 000)
-      type: ["restaurant"], // Type of establishment. NOT A KEYWORD!
-    }
-
-
-
-    service.nearbySearch(request, placesResultCallback);
-
-   */
   service = new google.maps.places.PlacesService(map);
   firebase.initializeApp(firebaseConfig);
   classifier = ml5.imageClassifier('./tensorflow/model.json', modelLoaded);
 
 
 }
-
+// Handles the search results from PlaceAPI nearby search
 function placesResultCallback(results, status){
   clearMarkers()
   placesArray = []
   placesDiv.innerHTML=``
   placesDiv.style.display = "flex"
   if (status == google.maps.places.PlacesServiceStatus.OK){
-    for (let i = 0; i < results.length; i++){
+    for (let i = 0; i < results.length; i++) {
       let place = results[i];
-      setStars(place.rating);
-      placesArray.push(place);
-      let section = document.createElement('section');
-      section.className = 'placesection';
-      // ID of the element is the unique ID of the restaurant to make future lookups easier
-      section.id = place.place_id;
-      let pics = []
-      pics = place.photos
-      let ltln = new google.maps.LatLng(place.geometry.location.lat(), place.geometry.location.lng());
-      console.log(ltln)
-      let name = place.name
-      let navBtn = document.createElement("button")
-      navBtn.type = "button"
-      navBtn.className = "imgButton"
-      navBtn.innerText="Get directions"
+      // Place IDs containing a hyphen break a lot of functionality, so we'll just ignore those restaurants...
+      if (!place.place_id.includes("-")) {
+        setStars(place.rating);
+        placesArray.push(place);
+        let section = document.createElement('article');
+        section.className = 'placesection';
+        // ID of the element is the unique ID of the restaurant to make future lookups easier
+        section.id = place.place_id;
+        let pics = []
+        pics = place.photos
+        let ltln = new google.maps.LatLng(place.geometry.location.lat(),
+            place.geometry.location.lng());
+        console.log(ltln)
+        let name = place.name
+        let navBtn = document.createElement("button")
+        navBtn.type = "button"
+        navBtn.classList.add("imgButton","btn")
+        navBtn.innerText = "Get directions"
 
-      let html =
-          `
-            <img src="`+ pics[0].getUrl({maxWidth: 100, maxHeight: 100}) +
-            `" onclick="fetchAllImgs(` + section.id + `);" class="placethumb">
+        let html =
+            `
+            <img src="` + pics[0].getUrl({maxWidth: 100, maxHeight: 100}) +
+            `" onclick="fetchAllImgs(` + section.id + `);" class="placethumb btn">
             <h4> ` + place.name + ` </h4>
             <p class="stars">` + stars + `</p>
             <div style="height:0px;overflow:hidden">    
-                <input type="file" id="`+ section.id.toString() + 'input' + `" accept="image/*"/>    
+                <input type="file" id="` + section.id.toString() + 'input' + `" accept="image/*"/>    
             </div>
-            <button type="button" class="imgButton" onclick="chooseImage(`+ section.id.toString() +`);">Add photo</button>
+            <button type="button" class="imgButton btn" onclick="chooseImage(` +
+            section.id.toString() + `);">Add photo</button>
             
             
             
           `
-      section.innerHTML = html
-      section.appendChild(navBtn)
-      navBtn.addEventListener('click', function(){
-        getDirections(ltln)
-      })
-      placesDiv.appendChild(section)
-      markersArray.push(
-      new google.maps.Marker({
-        map,
-        title: place.name,
-        position: place.geometry.location,
-      }));
+        section.innerHTML = html
+        section.appendChild(navBtn)
+        navBtn.addEventListener('click', function() {
+          directionsRenderer.setMap(map)
+          document.getElementById("map").style.height = "100vh"
+          document.getElementById("places").style.height = "0px"
+          document.getElementById("search").style.display = "none"
+          document.getElementById("mapClose").style.display = "block"
+          document.getElementById("directions").style.display = "block"
+          document.getElementById("expandPlaces").style.display = "none"
+          rangeCircle.opacity = 0
+          getDirections(ltln)
+        })
+        placesDiv.appendChild(section)
+        markersArray.push(
+            new google.maps.Marker({
+              map,
+              title: place.name,
+              position: place.geometry.location,
+            }));
+      }
     }
   }
 }
@@ -210,15 +216,15 @@ function photosCallback(place, status){
     let i = 1
     place.photos.forEach(p => {
       let url = p.getUrl({maxWidth: 1200, maxHeight: 800})
+
       let a = document.createElement("div")
           a.className="mySlides"
-              let b =
-          ` 
-                 <div class="numbertext">`+ i + " / " + place.photos.size + `</div> 
-                 <img src="`+ url +`" class="slideImg"> 
-          `
-      a.innerHTML = b
-      photosDiv.appendChild(a)
+      let img = document.createElement("img")
+          img.src = url
+          img.className = "slideImg"
+        a.appendChild(img)
+        photosDiv.appendChild(a)
+
       i++
     })
     openModal()
@@ -312,7 +318,7 @@ function getLocation() {
   }
 }
 function openModal() {
-  document.getElementById("placephotos").style.display = "block";
+  document.getElementById("placephotos").style.display = "flex";
 
   showSlides(slideIndex);
 }
@@ -332,19 +338,12 @@ function plusSlides(n) {
 function showSlides(n) {
   let i;
   let slides = document.getElementsByClassName("mySlides");
-  let dots = document.getElementsByClassName("demo");
-  let captionText = document.getElementById("caption");
   if (n > slides.length) {slideIndex = 1}
   if (n < 1) {slideIndex = slides.length}
   for (i = 0; i < slides.length; i++) {
     slides[i].style.display = "none";
   }
-  for (i = 0; i < dots.length; i++) {
-    dots[i].className = dots[i].className.replace(" active", "");
-  }
   slides[slideIndex-1].style.display = "flex";
-  dots[slideIndex-1].className += " active";
-  captionText.innerHTML = dots[slideIndex-1].alt;
 }
 // Param is ID of restaurant that photo will be linked to
 function chooseImage(id){
@@ -437,3 +436,44 @@ function getDirections(LatLng){
   });
 }
 
+function exitMap(){
+  document.getElementById("map").style.height = "60vh"
+  document.getElementById("places").style.height = "40vh"
+  document.getElementById("search").style.display = "block"
+  document.getElementById("mapClose").style.display = "none"
+  document.getElementById("directions").style.display = "none"
+  document.getElementById("expandPlaces").style.display = "block"
+  rangeCircle.strokeOpacity = 0.8
+  rangeCircle.fillOpacity = 0.1
+  directionsRenderer.setMap(null)
+}
+
+function expandPlaces(){
+  document.getElementById("places").style.height = "80vh"
+  document.getElementById("places").style.top = "20vh"
+  document.getElementById("places").style.flexWrap = "wrap"
+  document.getElementById("map").style.height = "20vh"
+  document.getElementById("expandPlaces").style.top = "15vh"
+  document.getElementById("expandPlaces").style.transform = "rotate(180deg)"
+  document.querySelectorAll(".placesection").forEach(s => {s.style.height = "11em"})
+  placesExpanded = true
+
+}
+ function shrinkPlaces(){
+   document.getElementById("places").style.height = "40vh"
+   document.getElementById("places").style.top = "60vh"
+   document.getElementById("places").style.flexWrap = "nowrap"
+   document.getElementById("map").style.height = "60vh"
+   document.getElementById("expandPlaces").style.top = "56vh"
+   document.getElementById("expandPlaces").style.transform = "rotate(0deg)"
+   document.querySelectorAll(".placesection").forEach(s => {s.style.height = "85%"})
+   placesExpanded = false
+ }
+
+ function togglePlaces(){
+  if(placesExpanded){
+    shrinkPlaces()
+  }else{
+    expandPlaces()
+  }
+ }

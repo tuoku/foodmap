@@ -2,37 +2,63 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FoodMap</title>
     <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB3Aamn6SJU7GtXtjccEJx6_uoFhuDJHMA&callback=initMap&libraries=places&v=weekly" defer></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB3Aamn6SJU7GtXtjccEJx6_uoFhuDJHMA&callback=initMap&libraries=places&v=weekly"
+            defer></script>
     <link rel="stylesheet" type="text/css" href="./style.css"/>
     <script src="./index.js"></script>
     <link rel="stylesheet" href="lightbox.css"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Rubik&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div id="map"></div>
+<header>
     <div id="search">
         <input type="text" placeholder="What do yo want to eat? (e.g pizza)" id="search-field">
-    </div>
-    <div id="range-slider">
+        <button id="searchButton"class="btn">Search</button>
         <input type="range" min="100" max="10000" value="1000" id="range-input">
         <output id="bubble"></output>
     </div>
-    <div id="places"></div>
+</header>
+<main>
+    <!-- X for exiting fullscreen map -->
+    <span class="close btn" id="mapClose" onclick="exitMap()">&times;</span>
+    <!-- container for step-by-step directions -->
+    <div id="directions"></div>
+    <!-- the div the map is loaded into -->
+    <div id="map"></div>
+    <!-- button for expanding the place-section from single-row to multi-row -->
+    <button id="expandPlaces" class="btn" onclick="togglePlaces()"></button>
+    <!-- section for search results -->
+    <section>
+        <div id="places">
+            <!-- cover image; shown when page is first loaded and user hasn't made a search yet -->
+            <img src="img/cover.png"/>
+        </div>
+    </section>
+    <!-- fullscreen image slideshow -->
     <div id="placephotos">
-        <span class="close" onclick="closeModal()">&times;</span>
+        <!-- X for closing the modal -->
+        <span class="close btn" onclick="closeModal()">&times;</span>
+        <!-- appropriate images will be loaded here -->
         <div id="modal-content"></div>
-        <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
-        <a class="next" onclick="plusSlides(1)">&#10095;</a>
+        <!-- buttons for navigating between images -->
+        <a class="prev btn" onclick="plusSlides(-1)">&#10094;</a>
+        <a class="next btn" onclick="plusSlides(1)">&#10095;</a>
     </div>
+    <!-- modal for uploading an image -->
     <div id="uploadPreview">
-        <span class="close" onclick="closeUploadPreview()">&times;</span>
-        <button id="uploadToFirebase">UPLOAD</button>
+        <span class="close btn" onclick="closeUploadPreview()">&times;</span>
+        <button id="uploadToFirebase" class="btn">UPLOAD</button>
+        <!-- div for image classification results -->
         <div id="uploadSnackbar"></div>
         <img src="" id="toUpload" class="slideImg"/>
     </div>
-    <script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-storage.js"></script>
-    <script src="https://unpkg.com/ml5@latest/dist/ml5.min.js"></script>
+</main>
+<script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-storage.js"></script>
+<script src="https://unpkg.com/ml5@latest/dist/ml5.min.js"></script>
 </body>
 </html>
